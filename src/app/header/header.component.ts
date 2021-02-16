@@ -18,7 +18,11 @@ export class HeaderComponent implements OnInit {
     // console.log("ShowRecipes Clicked");
   }
 
-  saveRecipes() {
+  onSaveRecipes() {
     this.dataStorageServ.storeRecipes()
+  }
+
+  onFetchRecipes() {
+    this.dataStorageServ.fetchRecipes()
   }
 }

@@ -2,25 +2,15 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { Recipe } from '../recipe-book/recipe-list.model';
 import { Ingredient } from '../shared/ingredient.model';
+import { DataStorageService } from '../shared/services/data-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
-  private recipes: Recipe[] =
-  [
-    new Recipe("Recipe 1", "Recipe 1", "../assets/images/img1.jpg",
-    [new Ingredient("Meat", 1), new Ingredient("Fries", 3), new Ingredient("Chilli", 5)]),
-    new Recipe("Recipe 2", "Recipe 2", "../assets/images/img2.jpg",
-    [new Ingredient("Bread", 1), new Ingredient("Garlic", 5)]),
-    new Recipe("Recipe 3", "Recipe 3", "../assets/images/img3.jpeg",
-    [new Ingredient("Espinach", 2), new Ingredient("Salt", 1)])
-  ];
-
+  private recipes: Recipe[] = []
   recipeChanged = new Subject<Recipe[]>();
 
-  // recipeSelected = new EventEmitter<Recipe>();
-  // recipeSelected = new Subject<Recipe>();
   constructor() { }
 
   getRecipes() : Recipe[] {
@@ -29,6 +19,12 @@ export class RecipeService {
 
   getRecipe(id: number) : Recipe {
     return this.recipes[id];
+  }
+
+  recipesInit(recipes: Recipe[]) {
+    this.recipes = recipes
+
+    this.recipeChanged.next(recipes.slice())
   }
 
   // onRecipeSelected(data: Recipe) {

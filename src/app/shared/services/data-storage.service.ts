@@ -20,4 +20,12 @@ export class DataStorageService {
       }
     )
   }
+
+  fetchRecipes() {
+    return this.http.get<Recipe[]>(`${this.API_URL}/recipes.json`).subscribe(
+      (response) => {
+        this.recipesServ.recipesInit(response)
+      }
+    )
+  }
 }
