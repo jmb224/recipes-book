@@ -19,6 +19,7 @@ import { RecipeHomeComponent } from './recipe-book/recipe-home/recipe-home.compo
 import { RecipeEditComponent } from './recipe-book/recipe-edit/recipe-edit.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { environment } from 'src/environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { environment } from 'src/environments/environment';
     ReactiveFormsModule,
     MatDialogModule,
     MatButtonModule,
+    HttpClientModule,
     BrowserAnimationsModule
   ],
   providers: [
