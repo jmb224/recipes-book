@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { catchError } from "rxjs/operators";
+import { Subject } from "rxjs";
+import { tap } from "rxjs/operators";
+import { User } from "./user.model";
 
 export interface UserLogin {
   email: string,
@@ -9,11 +11,12 @@ export interface UserLogin {
 }
 
 export interface AuthResponse {
-  expires_in: string,
-  token_type: string,
-  refresh_token: string,
-  id_token: string,
-  user_id: string,
+  displayName: string,
+  expiresIn: string,
+  email: string,
+  refreshToken: string,
+  idToken: string,
+  localId: string,
   project_id: string,
   registered?: boolean
 }
@@ -21,14 +24,23 @@ export interface AuthResponse {
 @Injectable( { providedIn: 'root' })
 
 export class AuthService {
+  public user = new Subject<User>();
 
   constructor(private http: HttpClient, @Inject('API_KEY') private API_KEY: string) {}
 
   signup(body: UserLogin) {
-    return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.API_KEY}`, body)
+    return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.API_KEY}`, body).pipe(
+      tap(authRes => {
+        // this.user.next(new User(authRes.email, authRes.localId, authRes.idToken, authRes.expiresIn));
+      })
+    );
   }
 
   signin(user: UserLogin) {
-    return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.API_KEY}`, user)
+    return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.API_KEY}`, user).pipe(
+      tap(authRes => {
+        this.user.next(new User(authRes.email, authRes.localId, authRes.idToken, authRes.expiresIn));
+      })
+    );
   }
 }
