@@ -23,6 +23,10 @@ export class DataStorageService {
         if (user) {
           this.token = user.token
         }
+        else {
+          const user = JSON.parse(localStorage.getItem('userData'))
+          this.token = user._token
+        }
       })
     }
 

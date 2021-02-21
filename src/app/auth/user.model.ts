@@ -4,9 +4,8 @@ export class User {
     public email: string,
     public id: string,
     private _token: string,
-    private _tokenLifeTime: string,
+    private _tokenLifeTime: Date,
   ) {
-    this._tokenExpirationDate = this.getTokenLife()
     this.saveToken();
   }
 
@@ -17,11 +16,8 @@ export class User {
     return null;
   }
 
-  private getTokenLife() : Date {
-    return new Date(Date.now() + +this._tokenLifeTime * 1000);
-  }
-
   private saveToken() {
-    localStorage.setItem(`userData`, JSON.stringify({ id: this.id, token: this.token }))
+    // localStorage.setItem(`userData`, JSON.stringify({ id: this.id, token: this.token }))
+    localStorage.setItem(`userData`, JSON.stringify(this));
   }
 }

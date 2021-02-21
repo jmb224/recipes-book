@@ -20,11 +20,12 @@ export class RequestInterceptor implements HttpInterceptor {
     return this.authServ.userSubject.pipe(
       take(1),
       exhaustMap((user) => {
-        user = user || JSON.parse(localStorage.getItem('userData')) as User
+        const _user = JSON.parse(localStorage.getItem('userData'));
+        user = user || _user;
         let req: HttpRequest<any>;
 
         if (user) {
-          req = request.clone({params: new HttpParams().set('auth', user.token)});
+          req = request.clone({params: new HttpParams().set('auth', user.token ?? _user._token)});
         }
 
         return next.handle(req || request)

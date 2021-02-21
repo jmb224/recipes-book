@@ -26,15 +26,17 @@ export interface AuthResponse {
 
 export class AuthService {
   public userSubject = new BehaviorSubject<User>(null);
-  public user: User;
+  public userLoggedIn: User;
+  public loggoutTimer = null;
 
   constructor(
+    private route: Router,
     private http: HttpClient, @Inject('API_KEY') private API_KEY: string) {}
 
   signup(body: UserLogin) {
     return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.API_KEY}`, body).pipe(
       tap(authRes => {
-        // this.user.next(new User(authRes.email, authRes.localId, authRes.idToken, authRes.expiresIn));
+        this.handleAuthentication(authRes);
       })
     );
   }
@@ -42,13 +44,35 @@ export class AuthService {
   signin(user: UserLogin) {
     return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.API_KEY}`, user).pipe(
       tap(authRes => {
-        this.user = new User(authRes.email, authRes.localId, authRes.idToken, authRes.expiresIn);
-        this.userSubject.next(this.user);
+        this.handleAuthentication(authRes);
       })
     );
   }
 
+  handleAuthentication(authRes: AuthResponse) {
+    this.userLoggedIn = new User(authRes.email, authRes.localId, authRes.idToken, new Date(Date.now() + +authRes.expiresIn * 1000));
+    this.autoLogout(+authRes.expiresIn)
+    this.userSubject.next(this.userLoggedIn);
+  }
+
   signout() {
     this.userSubject.next(null);
+    clearTimeout(this.loggoutTimer);
+    this.loggoutTimer = null;
+    localStorage.removeItem('userData');
+    this.route.navigate(['/auth'])
+  }
+
+  autoLogout(tokenExpirationTime: number) {
+    this.loggoutTimer = setTimeout(()=> {
+      this.signout()
+    }, tokenExpirationTime * 1000)
+  }
+
+  autoLogin() {
+    const user = JSON.parse(localStorage.getItem('userData'))
+
+    const userData = new User(user.email, user.id, user._token, new Date(user._tokenLifeTime))
+    this.userSubject.next(userData)
   }
 }
