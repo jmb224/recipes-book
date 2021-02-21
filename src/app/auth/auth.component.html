@@ -1,0 +1,25 @@
+<div class="row" style="margin-top: 15rem;" >
+  <div class="col-xs-12 col-sm-4 col-sm-offset-4">
+    <form [formGroup]="authFormGroup">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" class="form-control" formControlName="email">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" class="form-control" formControlName="password">
+      </div>
+
+      <div class="mt-4">
+        <button class="btn btn-primary" type="submit"
+          [disabled]="authFormGroup.invalid"
+          (click)="onLoginOrSignup()">
+          {{!isLogingMode ? "Sign up" : "Login"}}
+        </button> |
+        <button class="btn btn-primary" type="button" (click)="onSwitchMode()">Swith To {{isLogingMode ? "Sign up" : "Login"}}</button>
+        <div *ngIf="isLoading" class="lds-ellipsis" style="float: right;"><div></div><div></div><div></div><div></div></div>
+      </div>
+    </form>
+  </div>
+</div>

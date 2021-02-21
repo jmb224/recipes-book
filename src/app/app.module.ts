@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatButton, MatButtonModule} from '@angular/material/button';
+import { MatButtonModule} from '@angular/material/button';
 
 import { AppComponent } from './app.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
@@ -20,20 +20,22 @@ import { RecipeEditComponent } from './recipe-book/recipe-edit/recipe-edit.compo
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
+import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    AuthComponent,
     HeaderComponent,
+    DropdownDirective,
     RecipeBookComponent,
     RecipeListComponent,
     RecipeItemComponent,
-    RecipeDetailComponent,
-    ShoppingListComponent,
-    ShoppingListEditComponent,
-    DropdownDirective,
     RecipeHomeComponent,
     RecipeEditComponent,
+    ShoppingListComponent,
+    RecipeDetailComponent,
+    ShoppingListEditComponent,
     ConfirmationDialogComponent
   ],
   imports: [
@@ -50,6 +52,10 @@ import { HttpClientModule } from '@angular/common/http';
     {
       provide: "API_URL",
       useValue: environment.API_URL
+    },
+    {
+      provide: "API_KEY",
+      useValue: environment.API_KEY
     }
   ],
   bootstrap: [AppComponent]

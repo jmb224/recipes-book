@@ -1,8 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Recipe } from '../recipe-book/recipe-list.model';
-import { Ingredient } from '../shared/ingredient.model';
-import { DataStorageService } from '../shared/services/data-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +24,6 @@ export class RecipeService {
 
     this.recipeChanged.next(recipes.slice())
   }
-
-  // onRecipeSelected(data: Recipe) {
-  //   // this.recipeSelected.emit(data);
-  //   this.recipeSelected.next(data);
-  // }
 
   deleteRecipe(recipe: Recipe) {
     const index = this.recipes.indexOf(recipe);

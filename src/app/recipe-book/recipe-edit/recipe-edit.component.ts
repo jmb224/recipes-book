@@ -39,7 +39,6 @@ export class RecipeEditComponent implements OnInit {
     let recipe: Recipe;
     let recipeIngredients = new FormArray([])
 
-
     if (this.editMode) {
       recipe = this._recipeServ.getRecipe(this.id);
       this.image = new FormControl(recipe?.image, Validators.required);
@@ -84,7 +83,13 @@ export class RecipeEditComponent implements OnInit {
   }
 
   deleteIngredient(index: number) {
-    this.getControls().splice(index, 1);
+    // let formIngredient = this.getControls();
+    let control = (<FormArray>this.editForm.get('ingredients'))
+
+    control.removeAt(index)
+
+    // formIngredient.splice(index, 1)
+    // this.getControls().splice(index, 1);
   }
 
   save() {
@@ -92,8 +97,8 @@ export class RecipeEditComponent implements OnInit {
 
     let recipe = new Recipe(
       this.editForm.value['name'],
-      this.editForm.value['description'],
       this.editForm.value['imageURL'],
+      this.editForm.value['description'],
       this.editForm.value['ingredients'],
     )
 

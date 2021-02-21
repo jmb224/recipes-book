@@ -1,4 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { RecipeService } from '../services/recipe.service';
+import { Recipe } from './recipe-list.model';
 
 @Component({
   selector: 'app-recipe-book',
@@ -7,10 +10,17 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 })
 export class RecipeBookComponent implements OnInit, OnDestroy {
   // add observable to listen for the changes
-  constructor() {
+  constructor(
+    private recipeServ: RecipeService,
+    private activatedRoute: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.activatedRoute.data.subscribe(
+      (data: {recipes: Recipe[]}) => {
+        this.recipeServ.recipesInit(data.recipes)
+      }
+    )
     // this.recipeSelectSub = this._recipeServ.recipeSelected.subscribe(
     //   (recipeData: Recipe) => {
     //     this.selectedRecipe = recipeData
