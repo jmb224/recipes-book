@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
+import { catchError } from "rxjs/operators";
 
 export interface UserLogin {
   email: string,
@@ -7,7 +8,7 @@ export interface UserLogin {
   returnSecureToken: boolean
 }
 
-interface AuthResponse {
+export interface AuthResponse {
   expires_in: string,
   token_type: string,
   refresh_token: string,

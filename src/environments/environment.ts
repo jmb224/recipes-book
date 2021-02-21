@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://angular-recipe-book-dc115-default-rtdb.europe-west1.firebasedatabase.app/'
+  API_URL: 'https://angular-recipe-book-dc115-default-rtdb.europe-west1.firebasedatabase.app/',
+  API_KEY: 'AIzaSyDtD5wj2n65trbTrK-yPhdYfqYZfvz-Kf0'
 };
 
 /*
