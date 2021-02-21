@@ -24,6 +24,7 @@ import { AuthComponent } from './auth/auth.component';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { LoadingSpinnerCircularComponent } from './shared/loading-spinner-circular/loading-spinner-circular.component';
 import { ErrorInterceptor } from './auth/error-interceptor';
+import { RequestInterceptor } from './auth/request.interceptor';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,11 @@ import { ErrorInterceptor } from './auth/error-interceptor';
     BrowserAnimationsModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptor,
+      multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

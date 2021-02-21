@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Inject, Injectable } from "@angular/core";
-import { Subject } from "rxjs";
+import { ActivatedRoute, Router } from "@angular/router";
+import { BehaviorSubject, Subject } from "rxjs";
 import { tap } from "rxjs/operators";
 import { User } from "./user.model";
 
@@ -24,9 +25,11 @@ export interface AuthResponse {
 @Injectable( { providedIn: 'root' })
 
 export class AuthService {
-  public user = new Subject<User>();
+  public userSubject = new BehaviorSubject<User>(null);
+  public user: User;
 
-  constructor(private http: HttpClient, @Inject('API_KEY') private API_KEY: string) {}
+  constructor(
+    private http: HttpClient, @Inject('API_KEY') private API_KEY: string) {}
 
   signup(body: UserLogin) {
     return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${this.API_KEY}`, body).pipe(
@@ -39,8 +42,13 @@ export class AuthService {
   signin(user: UserLogin) {
     return this.http.post<AuthResponse>(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${this.API_KEY}`, user).pipe(
       tap(authRes => {
-        this.user.next(new User(authRes.email, authRes.localId, authRes.idToken, authRes.expiresIn));
+        this.user = new User(authRes.email, authRes.localId, authRes.idToken, authRes.expiresIn);
+        this.userSubject.next(this.user);
       })
     );
+  }
+
+  signout() {
+    this.userSubject.next(null);
   }
 }

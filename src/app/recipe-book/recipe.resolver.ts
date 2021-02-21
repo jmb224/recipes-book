@@ -13,7 +13,8 @@ import { Recipe } from './recipe-list.model';
 })
 export class RecipeResolver implements Resolve<Recipe[]> {
 
-  constructor(private dataStorageServ: DataStorageService) {}
+  constructor(
+    private dataStorageServ: DataStorageService) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Recipe[]> {
     return this.dataStorageServ.fetchRecipes()

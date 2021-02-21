@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { AuthResponse, AuthService, UserLogin } from "./auth.service";
 
@@ -15,7 +16,7 @@ export class AuthComponent {
   public authFormGroup: FormGroup;
   public authObservale: Observable<AuthResponse>;
 
-  constructor(private authServ: AuthService) {
+  constructor(private route: Router, private authServ: AuthService) {
     this.initForm();
   }
 
@@ -34,9 +35,10 @@ export class AuthComponent {
     const user: UserLogin = this.authFormGroup.value;
     user.returnSecureToken = true
 
-    var handleResponse = (data) => {
-      console.log('Sign up successfull', data)
+    var handleSuccess = (data: AuthResponse) => {
       setTimeout(() => { this.isLoading = false; }, 2000);
+
+      this.route.navigate(['/recipes']);
     }
 
     var handleError = (error) => {
@@ -55,7 +57,7 @@ export class AuthComponent {
     }
 
     this.authObservale.subscribe(
-      (data) => handleResponse(data),
+      (data) => handleSuccess(data),
       (error) => handleError(error)
     );
   }
