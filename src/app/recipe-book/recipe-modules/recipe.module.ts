@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
+import { SharedModule } from "src/app/shared/shared.module";
 import { RecipeBookComponent } from "../recipe-book.component";
 import { RecipeDetailComponent } from "../recipe-detail/recipe-detail.component";
 import { RecipeEditComponent } from "../recipe-edit/recipe-edit.component";
@@ -23,7 +24,7 @@ var components = [
   declarations: [
     components
   ],
-  imports: [RecipeRoutingModule, CommonModule, ReactiveFormsModule],
+  imports: [RecipeRoutingModule, SharedModule, ReactiveFormsModule],
   exports: [],
 })
 
