@@ -61,4 +61,8 @@ export class AuthComponent {
       (error) => handleError(error)
     );
   }
+
+  onClose() {
+    this.errorMessage = null;
+  }
 }

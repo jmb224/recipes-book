@@ -1,6 +1,6 @@
 <div class="row" style="margin-top: 10rem;" >
   <div class="col-xs-12 col-sm-4 col-sm-offset-4">
-    <div *ngIf="errorMessage != null" class="alert alert-danger" role="alert">{{errorMessage}}</div>
+    <app-alert *ngIf="errorMessage != null" [message]="errorMessage" (close)="onClose()"></app-alert>
     <form [formGroup]="authFormGroup">
       <div class="form-group">
         <label for="email">Email</label>

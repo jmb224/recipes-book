@@ -6,17 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule} from '@angular/material/button';
 
 import { AppComponent } from './app.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { RecipeBookComponent } from './recipe-book/recipe-book.component';
-import { RecipeListComponent } from './recipe-book/recipe-list/recipe-list.component';
 import { HeaderComponent } from './header/header.component';
-import { RecipeDetailComponent } from './recipe-book/recipe-detail/recipe-detail.component';
-import { RecipeItemComponent } from './recipe-book/recipe-list/recipe-item/recipe-item.component';
-import { ShoppingListEditComponent } from './shopping-list/shopping-list-edit/shopping-list-edit.component';
 import { DropdownDirective } from './shared/dropdown.directive';
 import { AppRoutingModule } from './app.routing.module';
-import { RecipeHomeComponent } from './recipe-book/recipe-home/recipe-home.component';
-import { RecipeEditComponent } from './recipe-book/recipe-edit/recipe-edit.component';
 import { ConfirmationDialogComponent } from './shared/confirmation-dialog/confirmation-dialog.component';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -25,6 +17,9 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { LoadingSpinnerCircularComponent } from './shared/loading-spinner-circular/loading-spinner-circular.component';
 import { ErrorInterceptor } from './auth/error-interceptor';
 import { RequestInterceptor } from './auth/request.interceptor';
+import { AlertComponent } from './shared/alert/alert.component';
+import { RecipeModule } from './recipe-book/recipe-modules/recipe.module';
+import { ShoppingListModule } from './shopping-list/shopping-list-module/shopping-list.module';
 
 @NgModule({
   declarations: [
@@ -32,27 +27,22 @@ import { RequestInterceptor } from './auth/request.interceptor';
     AuthComponent,
     HeaderComponent,
     DropdownDirective,
-    RecipeBookComponent,
-    RecipeListComponent,
-    RecipeItemComponent,
-    RecipeHomeComponent,
-    RecipeEditComponent,
-    ShoppingListComponent,
-    RecipeDetailComponent,
-    ShoppingListEditComponent,
     ConfirmationDialogComponent,
     LoadingSpinnerComponent,
-    LoadingSpinnerCircularComponent
+    LoadingSpinnerCircularComponent,
+    AlertComponent
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule,
+    RecipeModule,
+    BrowserModule,
     MatDialogModule,
     MatButtonModule,
+    AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    ShoppingListModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {

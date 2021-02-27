@@ -25,7 +25,7 @@ export class DataStorageService {
         }
         else {
           const user = JSON.parse(localStorage.getItem('userData'))
-          this.token = user._token
+          this.token = user?._token
         }
       })
     }
