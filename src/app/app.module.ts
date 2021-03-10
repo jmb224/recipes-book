@@ -11,6 +11,8 @@ import { ErrorInterceptor } from './auth/error-interceptor';
 import { RequestInterceptor } from './auth/request.interceptor';
 import { ShoppingListModule } from './shopping-list/shopping-list-module/shopping-list.module';
 import { AuthModule } from './auth/auth.module';
+import { StoreModule } from '@ngrx/store';
+import { ShoppingListReducer } from './shopping-list/shopping-list.reducer';
 
 @NgModule({
   declarations: [
@@ -19,11 +21,12 @@ import { AuthModule } from './auth/auth.module';
   ],
   imports: [
     AuthModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     ShoppingListModule,
     BrowserAnimationsModule,
+    StoreModule.forRoot({shoppingList: ShoppingListReducer}),
   ],
   providers: [
     {
